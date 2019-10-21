@@ -4,4 +4,4 @@ ini_set('html_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../bootstrap/app.php';
 
-$container->get('   emitter')->emit($response);
+$container->get('emitter')->emit($response);
