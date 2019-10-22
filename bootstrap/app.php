@@ -1,5 +1,6 @@
 <?php
 
+use App\Config\Loaders\ArrayLoader;
 use League\Route\Router;
 
 session_start();
@@ -11,6 +12,14 @@ try {
 } catch (\Dotenv\Exception\InvalidPathException $exception) {
     //
 }
+
+$loader = new ArrayLoader([
+    'app' => base_path('config/app.php'),
+    'cache' => base_path('config/cache.php'),
+]);
+
+dump($loader->parse());
+die;
 
 require_once base_path('/bootstrap/container.php');
 
