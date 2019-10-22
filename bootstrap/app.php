@@ -1,5 +1,6 @@
 <?php
 
+use App\Config\Config;
 use App\Config\Loaders\ArrayLoader;
 use League\Route\Router;
 
@@ -13,13 +14,13 @@ try {
     //
 }
 
-$loader = new ArrayLoader([
+$arrayLoader = new ArrayLoader([
     'app' => base_path('config/app.php'),
     'cache' => base_path('config/cache.php'),
 ]);
 
-dump($loader->parse());
-die;
+$config = new Config();
+$config->load([$arrayLoader]);
 
 require_once base_path('/bootstrap/container.php');
 
