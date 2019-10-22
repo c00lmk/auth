@@ -1,5 +1,8 @@
 <?php
 
 use App\Controllers\HomeController;
-
-$router->map('GET', '/', HomeController::class);
+/*
+ * TODO How to name the route
+ *
+ */
+$router->map('GET', '/', HomeController::class)->setName('home');

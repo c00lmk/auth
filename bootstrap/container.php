@@ -1,10 +1,16 @@
 <?php
 
 use App\Providers\AppServiceProvider;
+use App\Providers\ViewServiceProvider;
 use League\Container\Container;
+use League\Container\ReflectionContainer;
 
 $container = new Container();
 
-$container->addServiceProvider(new AppServiceProvider());
+// This turns auto-wiring ON
+$container->delegate(
+    new ReflectionContainer
+);
 
-// var_dump($container->get('test'));
+$container->addServiceProvider(new AppServiceProvider());
+$container->addServiceProvider(new ViewServiceProvider());

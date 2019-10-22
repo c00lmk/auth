@@ -7,16 +7,13 @@ namespace App\Providers;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Route\Router;
 use League\Route\Strategy\ApplicationStrategy;
-use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 class AppServiceProvider extends AbstractServiceProvider
 {
     protected $provides = [
-        'test',
         Router::class,
-        'response',
         'request',
         'emitter'
     ];
@@ -26,25 +23,17 @@ class AppServiceProvider extends AbstractServiceProvider
 
         $container = $this->getContainer();
 
-        // The following example shows how we can add things to the container
-        // 1st step: add id via share methog
-        // 2nd step: add protected property "$provides" as array and put in it whatever was add in #1 (in this example 'test')
-        $container->share('test', function() {
-            return 'it works';
-        });
-        // Ends example
+        // TODO check this 'link' to see if this issue has been resolved
+        // https://github.com/thephpleague/container/issues/180
 
+        $container->share(Router::class, function () use ($container) {
 
-        $container->share(Router::class, function() use ($container) {
-            $strategy = new ApplicationStrategy();
-            $strategy->setContainer($container);
+            $strategy = (new ApplicationStrategy())->setContainer($container);
 
             return (new Router)->setStrategy($strategy);
         });
 
-        $container->share('response', Response::class);
-
-        $container->share('request', function() {
+        $container->share('request', function () {
             return ServerRequestFactory::fromGlobals(
                 $_SERVER,
                 $_GET,
@@ -54,7 +43,7 @@ class AppServiceProvider extends AbstractServiceProvider
             );
         });
 
-        $container->share('emitter', function() {
+        $container->share('emitter', function () {
             return new SapiEmitter();
         });
     }
