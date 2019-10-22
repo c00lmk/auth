@@ -14,14 +14,6 @@ try {
     //
 }
 
-$arrayLoader = new ArrayLoader([
-    'app' => base_path('config/app.php'),
-    'cache' => base_path('config/cache.php'),
-]);
-
-$config = new Config();
-$config->load([$arrayLoader]);
-
 require_once base_path('/bootstrap/container.php');
 
 $router = $container->get(Router::class);
