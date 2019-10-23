@@ -1,5 +1,8 @@
 <?php
 
 return [
-    'test' => true,
+    'views' => [
+        'enableg' => $enabled = env('CACHE_VIEWS'),
+        'path' => $enabled ? base_path('cache/views') : false
+    ]
 ];
