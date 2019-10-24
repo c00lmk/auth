@@ -13,6 +13,9 @@ $container->delegate(
     new ReflectionContainer
 );
 
-$container->addServiceProvider(new AppServiceProvider());
-$container->addServiceProvider(new ViewServiceProvider());
+
 $container->addServiceProvider(new ConfigServiceProvider());
+
+foreach ($container->get('config')->get('app.providers') as $provider) {
+    $container->addServiceProvider($provider);
+}
