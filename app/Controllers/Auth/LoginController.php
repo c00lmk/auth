@@ -1,21 +1,16 @@
 <?php
 
-namespace App\Controllers;
+
+namespace App\Controllers\Auth;
 
 
-use App\Views\View;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response;
 
-class HomeController
+class LoginController
 {
-
-    /**
-     * @var View
-     */
     protected $view;
-    protected $db;
 
     public function __construct(View $view)
     {
@@ -30,7 +25,7 @@ class HomeController
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $response = new Response();
-        return $this->view->render($response, 'home.twig');
+        return $this->view->render($response, 'auth/login.twig');
 
     }
 
