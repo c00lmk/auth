@@ -2,6 +2,7 @@
 
 use App\Config\Config;
 use App\Config\Loaders\ArrayLoader;
+use App\Exceptions\Handler;
 use League\Route\Router;
 
 session_start();
@@ -23,5 +24,7 @@ require_once base_path('/routes/web.php');
 try {
     $response = $router->dispatch($container->get('request'));
 } catch (Exception $e) {
-    dump($e);
+    $handler = new Handler($e);
+
+    $response = $handler->respond();
 }
