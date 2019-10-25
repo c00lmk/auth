@@ -30,6 +30,10 @@ class ComposerStaticInit97018112e46d3559a0c849f56bb5501e
             'Zend\\HttpHandlerRunner\\' => 23,
             'Zend\\Diactoros\\' => 15,
         ),
+        'V' => 
+        array (
+            'Valitron\\' => 9,
+        ),
         'T' => 
         array (
             'Twig\\' => 5,
@@ -86,6 +90,10 @@ class ComposerStaticInit97018112e46d3559a0c849f56bb5501e
         'Zend\\Diactoros\\' => 
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
+        ),
+        'Valitron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/valitron/src/Valitron',
         ),
         'Twig\\' => 
         array (

@@ -1,0 +1,21 @@
+{% extends 'templates/app.twig' %}
+{% block content %}
+    <div class="row justify-content-center">
+        <form method="POST" action="/auth/login" class="form">
+            <div class="form-group">
+                <label for="email">Email: </label>
+                <input type="text" name="email" id="email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Password: </label>
+                <input type="password" name="password" id="password" class="form-control">
+            </div>
+            <div class="form-check">
+                <label for="remember" class="form-check-label">
+                    <input type="checkbox" name="remeber" id="remember" class="form-check-input"> remember
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </form>
+    </div>
+{% endblock %}

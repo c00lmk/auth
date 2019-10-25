@@ -20,4 +20,8 @@ $router = $container->get(Router::class);
 
 require_once base_path('/routes/web.php');
 
-$response = $router->dispatch($container->get('request'));
+try {
+    $response = $router->dispatch($container->get('request'));
+} catch (Exception $e) {
+    dump($e);
+}
