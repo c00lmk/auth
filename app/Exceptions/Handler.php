@@ -32,7 +32,6 @@ class Handler
     public function handleValidationException(ValidationException $exception)
     {
         // TODO session set
-        
 
         // redirect
         return redirect($exception->getPath());
