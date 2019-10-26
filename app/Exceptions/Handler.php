@@ -6,14 +6,21 @@ namespace App\Exceptions;
 
 
 
+use App\Session\SessionStore;
+
 class Handler
 {
 
     protected $exception;
+    protected $session;
 
-    public function __construct(\Exception $exception)
+    public function __construct(
+        \Exception $exception,
+        SessionStore $session
+    )
     {
         $this->exception = $exception;
+        $this->session = $session;
     }
 
     public function respond()
@@ -31,7 +38,11 @@ class Handler
 
     public function handleValidationException(ValidationException $exception)
     {
-        // TODO session set
+        // session set
+        $this->session->set([
+            'errors' => $exception->getErrors(),
+            'old' => $exception->getOldInput()
+        ]);
 
         // redirect
         return redirect($exception->getPath());
