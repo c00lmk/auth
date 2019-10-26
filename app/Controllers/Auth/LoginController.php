@@ -40,8 +40,7 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
-//        return $this->view->render($response, 'auth/login.twig');
-        dump('login');
+        return $this->view->render($response, 'auth/login.twig');
     }
 
 }

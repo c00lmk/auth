@@ -49,7 +49,7 @@ class Handler
 
     }
 
-    public function unhandledException(ValidationException $exception)
+    public function unhandledException(\Exception $exception)
     {
         throw $exception;
     }

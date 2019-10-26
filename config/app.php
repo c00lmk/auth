@@ -8,5 +8,10 @@ return [
         'App\Providers\ViewServiceProvider',
         'App\Providers\DatabaseServiceProvider',
         'App\Providers\SessionServiceProvider',
+    ],
+
+    'middleware' => [
+        'App\Middleware\ShareValidationErrors',
+        'App\Middleware\ClearValidationErrors',
     ]
 ];
