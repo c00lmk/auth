@@ -16,6 +16,7 @@
     "twig/twig": "^2.0",
     "symfony/var-dumper": "^4.3",
     "doctrine/orm": "^2.6",
-    "vlucas/valitron": "^1.4"
+    "vlucas/valitron": "^1.4",
+    "ext-http": "*"
   }
 }

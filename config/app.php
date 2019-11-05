@@ -9,6 +9,7 @@ return [
         'App\Providers\ViewShareServiceProvider',
         'App\Providers\DatabaseServiceProvider',
         'App\Providers\SessionServiceProvider',
+        'App\Providers\HashServiceProvider',
     ],
 
     'middleware' => [
