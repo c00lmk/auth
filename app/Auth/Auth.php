@@ -8,6 +8,7 @@ use App\Auth\Hashing\Hasher;
 use App\Models\User;
 use App\Session\SessionStore;
 use Doctrine\ORM\EntityManager;
+use mysql_xdevapi\Exception;
 
 class Auth
 {
@@ -16,6 +17,8 @@ class Auth
     protected $hasher;
 
     protected $session;
+
+    protected $user;
 
     public function __construct(EntityManager $db, Hasher $hasher, SessionStore $session)
     {
@@ -36,20 +39,51 @@ class Auth
         return true;
     }
 
+    protected function key()
+    {
+        return 'id';
+    }
+
     protected function hasValidCredentials($user, $password)
     {
         return $this->hasher->check($password, $user->password);
     }
 
+    protected function getById($user_id)
+    {
+        return $this->db->getRepository(User::class)->find($user_id);
+    }
+
     protected function getByUsername($username)
     {
-        return $this->db->getRepository(User::class)->findOneBy([
+        return $this->db->getRepository(User::class)->find([
             'email' => $username
         ]);
     }
 
     protected function setUserSession($user)
     {
-        $this->session->set('id', $user->id);
+        $this->session->set($this->key(), $user->id);
+    }
+
+    public function user()
+    {
+        return $this->user;
+    }
+
+    public function hasUserInSession()
+    {
+        return $this->session->exists($this->key());
+    }
+
+    public function setUserFromSession()
+    {
+        $user = $this->getById($this->session->get($this->key()));
+
+        if (!$user) {
+            throw new Exception();
+        }
+
+        $this->user = $user;
     }
 }

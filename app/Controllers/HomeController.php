@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 
-use App\Auth\Hashing\Hasher;
+use App\Auth\Auth;
 use App\Views\View;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,12 +16,13 @@ class HomeController
      * @var View
      */
     protected $view;
-    protected $db;
 
-    public function __construct(View $view, Hasher $hasher)
+    protected $auth;
+
+    public function __construct(View $view, Auth $auth)
     {
         $this->view = $view;
-        $this->hash = $hasher;
+        $this->auth = $auth;
     }
 
     /**
@@ -32,7 +33,9 @@ class HomeController
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $response = new Response();
-        return $this->view->render($response, 'home.twig');
+        return $this->view->render($response, 'home.twig', [
+            'user' => $this->auth->user()
+        ]);
 
     }
 

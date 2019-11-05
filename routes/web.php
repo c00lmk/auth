@@ -3,10 +3,6 @@
 use App\Controllers\HomeController;
 use League\Route\RouteGroup;
 
-/*
- * TODO How to name the route
- *
- */
 $router->map('GET', '/', HomeController::class)->setName('home');
 $router->group('/auth', function (RouteGroup $router) {
     $router->map('GET', '/login', 'App\Controllers\Auth\LoginController::index')->setName('auth.login');

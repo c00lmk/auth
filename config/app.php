@@ -2,7 +2,7 @@
 
 return [
     'name' => getenv('APP_NAME'),
-    'debug' =>getenv('APP_DEBUG', false),
+    'debug' => getenv('APP_DEBUG', false),
     'providers' => [
         'App\Providers\AppServiceProvider',
         'App\Providers\ViewServiceProvider',
@@ -16,5 +16,6 @@ return [
     'middleware' => [
         'App\Middleware\ShareValidationErrors',
         'App\Middleware\ClearValidationErrors',
+        'App\Middleware\Authenticate',
     ]
 ];
