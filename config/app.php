@@ -10,6 +10,7 @@ return [
         'App\Providers\DatabaseServiceProvider',
         'App\Providers\SessionServiceProvider',
         'App\Providers\HashServiceProvider',
+        'App\Providers\AuthServiceProvider',
     ],
 
     'middleware' => [

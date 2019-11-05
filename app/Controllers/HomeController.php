@@ -31,8 +31,6 @@ class HomeController
      */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        dump($this->hash->check('password', '$2y$12$Q51o9d0ISpOAQphiPQ2H3O3AD3Ql5nuRChmbuOARfTN8UM4EORoUm'));
-        die;
         $response = new Response();
         return $this->view->render($response, 'home.twig');
 
