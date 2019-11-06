@@ -8,7 +8,6 @@ use App\Auth\Hashing\Hasher;
 use App\Models\User;
 use App\Session\SessionStore;
 use Doctrine\ORM\EntityManager;
-use mysql_xdevapi\Exception;
 
 class Auth
 {
@@ -81,7 +80,7 @@ class Auth
         $user = $this->getById($this->session->get($this->key()));
 
         if (!$user) {
-            throw new Exception();
+            throw new \Exception();
         }
 
         $this->user = $user;

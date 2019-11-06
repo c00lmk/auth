@@ -17,7 +17,6 @@
     "symfony/var-dumper": "^4.3",
     "doctrine/orm": "^2.6",
     "vlucas/valitron": "^1.4",
-    "ext-http": "*",
-    "ext-mysql_xdevapi": "*"
+    "filp/whoops": "^2.5"
   }
 }

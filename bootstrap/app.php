@@ -5,10 +5,14 @@ use App\Session\Session;
 use Dotenv\Dotenv;
 use Dotenv\Exception\InvalidPathException;
 use League\Route\Router;
+use Whoops\Run;
 
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
+$whoops = new Run();
+$whoops->prependHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
 
 try {
     $dotenv = Dotenv::create(base_path())->load();

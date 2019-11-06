@@ -30,6 +30,8 @@ class Authenticate implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $response = $handler->handle($request);
+
         if ($this->auth->hasUserInSession()) {
             try {
                 $this->auth->setUserFromSession();
@@ -38,8 +40,6 @@ class Authenticate implements MiddlewareInterface
             }
 
         }
-
-        $response = $handler->handle($request);
 
         return $response;
     }
