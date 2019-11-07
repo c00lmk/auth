@@ -5,6 +5,7 @@ namespace App\Middleware;
 
 
 use App\Auth\Auth;
+use App\Auth\Hashing\BcryptHasher;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -30,7 +31,7 @@ class Authenticate implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $response = $handler->handle($request);
+
 
         if ($this->auth->hasUserInSession()) {
             try {
@@ -40,7 +41,7 @@ class Authenticate implements MiddlewareInterface
             }
 
         }
-
+        $response = $handler->handle($request);
         return $response;
     }
 }

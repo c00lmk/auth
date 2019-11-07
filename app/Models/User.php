@@ -16,7 +16,7 @@ class User extends Model
 {
     /**
      * @OGeneratedValue(strategy="AUTO")
-     * @Id @Column(name="id", type="integer", nullable=false)
+     * @id @Column(name="id", type="integer", nullable=false)
      */
     protected $id;
 

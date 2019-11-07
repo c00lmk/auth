@@ -30,7 +30,7 @@ class HomeController
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request): ResponseInterface
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
         $response = new Response();
         return $this->view->render($response, 'home.twig', [

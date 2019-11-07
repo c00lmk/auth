@@ -10,11 +10,9 @@ use Whoops\Run;
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$whoops = new Run();
-$whoops->prependHandler(new \Whoops\Handler\PrettyPageHandler);
-$whoops->register();
 
 try {
+    // Create new Dotenv object so that we can load configuration parameters from .env file
     $dotenv = Dotenv::create(base_path())->load();
 } catch (InvalidPathException $exception) {
     //

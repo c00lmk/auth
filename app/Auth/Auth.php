@@ -55,7 +55,7 @@ class Auth
 
     protected function getByUsername($username)
     {
-        return $this->db->getRepository(User::class)->find([
+        return $this->db->getRepository(User::class)->findOneBy([
             'email' => $username
         ]);
     }
