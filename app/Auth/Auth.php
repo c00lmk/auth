@@ -109,4 +109,9 @@ class Auth
 
         $this->db->flush();
     }
+
+    public function logut()
+    {
+        $this->session->clear($this->key());
+    }
 }
