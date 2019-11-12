@@ -15,8 +15,8 @@ use Doctrine\ORM\Mapping\Table;
 class User extends Model
 {
     /**
-     * @OGeneratedValue(strategy="AUTO")
-     * @id @Column(name="id", type="integer", nullable=false)
+     * @GeneratedValue(strategy="AUTO")
+     * @Id @Column(name="id", type="integer", nullable=false)
      */
     protected $id;
 

@@ -28,4 +28,9 @@ abstract class Model
             $this->{$column_name} = $value;
         }
     }
+
+    public function fill(array $columns)
+    {
+        $this->update($columns);
+    }
 }
