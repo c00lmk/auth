@@ -2,6 +2,7 @@
 
 use App\Exceptions\Handler;
 use App\Session\Session;
+use App\Views\View;
 use Dotenv\Dotenv;
 use Dotenv\Exception\InvalidPathException;
 use League\Route\Router;
@@ -32,7 +33,8 @@ try {
 } catch (Exception $e) {
     $handler = new Handler(
         $e,
-        $container->get(Session::class)
+        $container->get(Session::class),
+        $container->get(View::class)
     );
 
     $response = $handler->respond();

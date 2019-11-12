@@ -22,7 +22,7 @@ class Csrf
             return $this->getTokenFromSession();
         }
         $this->session->set(
-            $this->Key(),
+            $this->key(),
             $token = bin2hex(random_bytes(32))
         );
 
@@ -31,24 +31,29 @@ class Csrf
 
     private function getTokenFromSession()
     {
-        return $this->session->get($this->Key());
+        return $this->session->get($this->key());
     }
 
-    public  function Key()
+    public  function key()
     {
         return '_token';
     }
 
+    public function tokenIsValid($token)
+    {
+        return $token === $this->session->get($this->key());
+    }
+
     private function tokenNeedsToBeGenerated()
     {
-        if (!$this->session->exists($this->Key())) {
+        if (!$this->session->exists($this->key())) {
             return true;
         }
         if ($this->shouldPersistToken()) {
             return false;
         }
 
-        return $this->session->exists($this->Key());
+        return $this->session->exists($this->key());
     }
 
     private function shouldPersistToken()
