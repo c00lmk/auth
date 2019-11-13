@@ -1,22 +1,25 @@
 <?php
 
-use App\Controllers\HomeController;
 use App\Middleware\Authenticated;
+use App\Middleware\Guest;
 use League\Route\RouteGroup;
+use League\Route\Router;
+
 
 $router->map('GET', '/', 'App\Controllers\HomeController::index')->setName('home');
 
-$router->group('', function($router) {
+$router->group('', function (RouteGroup $router) {
     $router->map('GET', '/dashboard', 'App\Controllers\DashboardController::index')->setName('dashboard');
+    $router->map('POST', '/auth/logout', 'App\Controllers\Auth\LogoutController::logout')->setName('auth.logout');
 })->middleware($container->get(Authenticated::class));
 
 
-$router->group('/auth', function (RouteGroup $router) {
-    $router->map('GET', '/login', 'App\Controllers\Auth\LoginController::index')->setName('auth.login');
-    $router->map('POST', '/login', 'App\Controllers\Auth\LoginController::login');
+$router->group('', function (RouteGroup $router) {
+    $router->map('GET', '/auth/login', 'App\Controllers\Auth\LoginController::index')->setName('auth.login');
+    $router->map('POST', '/auth/login', 'App\Controllers\Auth\LoginController::login');
 
-    $router->map('POST', '/logout', 'App\Controllers\Auth\LogoutController::logout')->setName('auth.logout');
+    $router->map('GET', '/auth/register', 'App\Controllers\Auth\RegisterController::index')->setName('auth.register');
+    $router->map('POST', '/auth/register', 'App\Controllers\Auth\RegisterController::register');
+})->middleware($container->get(Guest::class));
 
-    $router->map('GET', '/register', 'App\Controllers\Auth\RegisterController::index')->setName('auth.register');
-    $router->map('POST', '/register', 'App\Controllers\Auth\RegisterController::register');
-});
+
