@@ -20,5 +20,6 @@ return [
         'App\Middleware\ShareValidationErrors',
         'App\Middleware\ClearValidationErrors',
         'App\Middleware\Authenticate',
-        'App\Middleware\CsrfGuard',    ]
+        'App\Middleware\CsrfGuard',
+    ]
 ];
