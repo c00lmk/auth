@@ -5,40 +5,57 @@ namespace App\Auth;
 
 
 use App\Auth\Hashing\Hasher;
-use App\Models\User;
+use App\Auth\Providers\UserProvider;
+use App\Cookie\CookieJar;
 use App\Session\SessionStore;
-use Doctrine\ORM\EntityManager;
 
 class Auth
 {
-    protected $db;
 
     protected $hasher;
 
     protected $session;
 
-    protected $user;
+    private $user;
 
-    public function __construct(EntityManager $db, Hasher $hasher, SessionStore $session)
+    private $recaller;
+
+    private $cookie;
+
+    private $provider;
+
+    public function __construct(
+        Hasher $hasher,
+        SessionStore $session,
+        Recaller $recaller,
+        CookieJar $cookie,
+        UserProvider $user
+    )
     {
-        $this->db = $db;
         $this->hasher = $hasher;
         $this->session = $session;
+        $this->recaller = $recaller;
+        $this->cookie = $cookie;
+        $this->provider = $user;
     }
 
-    public function attempt($username, $password)
+    public function attempt($username, $password, $remember = false)
     {
-        $user = $this->getByUsername($username);
+        $user = $this->provider->getByUsername($username);
 
         if (!$user || !$this->hasValidCredentials($user, $password)) {
             return false;
         }
 
         if($this->needsRehash($user)){
-            $this->rehashPassword($user, $password);
+            $this->provider->updateUserPasswordHash($user->id, $this->hasher->create($password));
         }
 
         $this->setUserSession($user);
+
+        if ($remember) {
+            $this->setRememberToken($user);
+        }
         return true;
     }
 
@@ -52,17 +69,6 @@ class Auth
         return $this->hasher->check($password, $user->password);
     }
 
-    protected function getById($user_id)
-    {
-        return $this->db->getRepository(User::class)->find($user_id);
-    }
-
-    protected function getByUsername($username)
-    {
-        return $this->db->getRepository(User::class)->findOneBy([
-            'email' => $username
-        ]);
-    }
 
     protected function setUserSession($user)
     {
@@ -81,7 +87,7 @@ class Auth
 
     public function setUserFromSession()
     {
-        $user = $this->getById($this->session->get($this->key()));
+        $user = $this->provider->getById($this->session->get($this->key()));
 
         if (!$user) {
             throw new \Exception();
@@ -100,18 +106,46 @@ class Auth
         return $this->hasher->needsRehash($user->password);
     }
 
-    public function rehashPassword($user, $password)
-    {
-        // db update
-        $this->db->getRepository(User::class)->find($user->id)->update([
-            'password' => $this->hasher->create($password)
-        ]);
 
-        $this->db->flush();
+    public function logout()
+    {
+        $this->provider->clearUserRememberToken($this->user->id);
+        $this->session->clear($this->key());
+        $this->cookie->clear('remember');
     }
 
-    public function logut()
+    private function setRememberToken($user)
     {
-        $this->session->clear($this->key());
+        list($identifier, $token) = $this->recaller->generate();
+
+        $this->cookie->set('remember', $this->recaller->generateValueForCookie($identifier, $token));
+
+        $this->provider->setUserRememberToken($user->id, $identifier, $this->recaller->getTokenHashForDatabase($token));
+    }
+
+    public function hasRecaller()
+    {
+        return $this->cookie->exists('remember');
+    }
+
+    public function setUserFromCookie()
+    {
+        list($identifier, $token) = $this->recaller->splitCookieValue($this->cookie->get('remember'));
+
+
+        if(!$user = $this->provider->getUserByRememberIdentifier($identifier)) {
+            $this->cookie->clear('remember');
+            return;
+        }
+
+        if(!$this->recaller->validateToken($token, $user->remember_token)) {
+
+            $this->provider->clearUserRememberToken($user->id);
+            $this->cookie->clear('remember');
+
+            throw new \Exception();
+        }
+
+        $this->setUserSession($user);
     }
 }

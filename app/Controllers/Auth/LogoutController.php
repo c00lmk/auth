@@ -26,7 +26,7 @@ class LogoutController extends Controller
     public function logout(ServerRequestInterface $request): ResponseInterface
     {
 
-        $this->auth->logut();
+        $this->auth->logout();
 
         $response = redirect('/');
         return $response;

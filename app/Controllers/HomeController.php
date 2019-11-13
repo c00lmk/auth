@@ -32,7 +32,6 @@ class HomeController
      */
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        dump($this->cookie->clear('abc', 'def'));
 
         $response = new Response();
         return $this->view->render($response, 'home.twig');

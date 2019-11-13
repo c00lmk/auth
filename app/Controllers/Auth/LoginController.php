@@ -43,14 +43,13 @@ class LoginController extends Controller
 
     public function login(ServerRequestInterface $request): ResponseInterface
     {
-        $response = new Response();
 
         $data = $this->validate($request, [
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
 
-        $attempt = $this->auth->attempt($data['email'], $data['password']);
+        $attempt = $this->auth->attempt($data['email'], $data['password'], isset($data['remember']));
 
         if(!$attempt) {
             $this->flash->now('error', 'Could not sign in with those details.');
@@ -58,9 +57,8 @@ class LoginController extends Controller
             return redirect($request->getUri()->getPath());
 
         }
-        return redirect($this->router->getNamedRoute('home')->getPath());
 
-        //return $this->view->render($response, 'auth/login.twig');
+        return redirect($this->router->getNamedRoute('home')->getPath());
     }
 
 }
