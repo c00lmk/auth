@@ -17,6 +17,7 @@
     "symfony/var-dumper": "^4.3",
     "doctrine/orm": "^2.6",
     "vlucas/valitron": "^1.4",
-    "filp/whoops": "^2.5"
+    "filp/whoops": "^2.5",
+    "illuminate/database": "^6.5"
   }
 }

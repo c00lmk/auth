@@ -9,7 +9,6 @@ use App\Auth\Hashing\Hasher;
 use App\Controllers\Controller;
 use App\Models\User;
 use App\Views\View;
-use Doctrine\ORM\EntityManager;
 use League\Route\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,15 +19,13 @@ class RegisterController extends Controller
     protected $view;
     protected $auth;
     private $hasher;
-    private $db;
     private $router;
 
-    public function __construct(View $view, Auth $auth, Hasher $hasher, EntityManager $db, Router $router)
+    public function __construct(View $view, Auth $auth, Hasher $hasher, Router $router)
     {
         $this->view = $view;
         $this->auth = $auth;
         $this->hasher = $hasher;
-        $this->db = $db;
         $this->router = $router;
 
     }
@@ -63,18 +60,11 @@ class RegisterController extends Controller
 
     private function createUser($data)
     {
-        $user = new User();
-
-        $user->fill([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $this->hasher->create($data['password'])
         ]);
-
-        $this->db->persist($user);
-        $this->db->flush();
-
-        return $user;
     }
 
 

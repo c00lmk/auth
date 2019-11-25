@@ -4,25 +4,15 @@
 namespace App\Rules;
 
 
-use Doctrine\ORM\EntityManager;
+use App\Models\User;
 
 class ExistsRule implements ValidationInterface
 {
-    private $db;
-
-    public function __construct(EntityManager $db)
-    {
-        $this->db = $db;
-    }
 
     public function validate($field, $value, $params, $fields)
     {
 
-        $result = $this->db->getRepository($params[0])
-        ->findOneBy([
-            $field => $value
-        ]);
+        return User::where($field, $value)->first() === null;
 
-        return $result === null;
     }
 }

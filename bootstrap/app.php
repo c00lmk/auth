@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\Handler;
+use App\Models\User;
 use App\Session\Session;
 use App\Views\View;
 use Dotenv\Dotenv;

@@ -23,8 +23,7 @@ class ValidationServiceProvider extends AbstractServiceProvider implements Boota
     public function boot()
     {
         Validator::addRule('exists', function($field, $value, $params, $fields) {
-            $db = $this->getContainer()->get(EntityManager::class);
-            $rule = new ExistsRule($db);
+            $rule = new ExistsRule();
 
             return $rule->validate($field, $value, $params, $fields);
         }, 'is already in use');
